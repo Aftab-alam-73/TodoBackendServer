@@ -3,7 +3,7 @@ import Todo from '../model/todo.js'
 export const create=async(req,res)=>{
     const {title,description} = req.body;
    
-    console.log(title,description)
+   
     try{
 
         const data=new Todo({title:title,description:description});
@@ -54,6 +54,17 @@ export const taskCompleted = async(req, res) =>{
     try{
         await Todo.findByIdAndUpdate(id,{status:true});
         res.send("Task completed successfully");
+
+    }catch(err){
+        return res.json({message:"Something went wrong",error:err.message});
+    }
+}
+// Get all completed tasks
+export const GetAllCompletedTask = async(req, res) =>{
+  
+    try{
+        const data=await Todo.find({status:true});
+        res.send(data);
 
     }catch(err){
         return res.json({message:"Something went wrong",error:err.message});
